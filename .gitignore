@@ -3,6 +3,7 @@
 .DS_Store
 *~
 .sass-cache
+database.js
 
 # package control
 node_modules
