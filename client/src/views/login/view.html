@@ -1,0 +1,65 @@
+<div class="login">
+    <div class="row">
+        <div class="large-centered medium-centered large-5 medium-5 small-12 columns">
+            <form ng-if="!login.showOrgList" name="loginForm" class="loginBox" ng-submit="doLogin(loginForm)"
+                  novalidate>
+                <fieldset ng-if="!login.hasUsername">
+                    <input
+                        required
+                        autofocus
+                        auto-fill-sync
+                        ng-minlength="5"
+                        ng-maxlength="75"
+                        ng-model="login.data.username"
+                        name="username"
+                        type="text"
+                        placeholder="Username">
+                    <label for="cb">
+                        <input id="cb" type="checkbox" ng-model="login.data.rememberCheck"> Remember me
+                    </label>
+
+                    <button ng-disabled="loginForm.$invalid" type="submit" class="expand rc-button">Next</button>
+                </fieldset>
+                <fieldset ng-if="login.hasUsername">
+                    <input
+                        required
+                        ng-minlength="5"
+                        ng-maxlength="75"
+                        ng-model="login.data.password"
+                        name="password"
+                        type="password"
+                        placeholder="Password"
+                        disable-autocomplete>
+
+                    <div class="row section">
+                        <div class="large-3 columns">
+                            <button class="expand rc-button back">back</button>
+                        </div>
+                        <div class="large-9 columns">
+                            <button ng-disabled="loginForm.$invalid" type="submit" class="expand rc-button">Sign in
+                            </button>
+                        </div>
+                    </div>
+                </fieldset>
+            </form>
+            <div ng-if="login.showOrgList" class="orgListing">
+                <div class="row">
+                    <div class="large-12 columns">
+                        <fieldset>
+                            <div class="headerBar">
+                                <h3>Select your organization...</h3>
+                            </div>
+                            <ul class="no-bullet">
+                                <li ng-repeat="org in login.orgs" ng-click="selectOrg(org)">
+                                    <span class="title">{{org.title}}</span>
+                                    <span class="desc">{{org.comments}}</span>
+                                </li>
+                            </ul>
+                        </fieldset>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+

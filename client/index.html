@@ -1,0 +1,50 @@
+﻿<!doctype html>
+<html lang="en" ng-app="projectBlocksApp">
+
+<head>
+    <meta charset="utf-8"/>
+    <title>project blocks</title>
+    <meta name="description" content="">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"/>
+    <meta name="viewport" content="width=device-width,initial-scale=1"/>
+    <title ng-bind="title"></title>
+    <meta charset="utf-8"/>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"/>
+    <meta name="viewport" content="width=device-width,initial-scale=1"/>
+    <meta name="keywords" content=""/>
+
+    <!-- build:css assets/css/main.css -->
+    <link rel="stylesheet" type="text/css" href="src/vendor/foundation/css/foundation.min.css"/>
+    <link rel="stylesheet" type="text/css" href="tmp/main.css"/>
+    <!-- endbuild -->
+</head>
+
+<body>
+<div>
+    <div ng-cloak> <div ng-view></div> </div>
+</div>
+
+<!-- build:js assets/js/vendor.js -->
+<script type="text/javascript" src="src/vendor/jquery/dist/jquery.min.js"></script>
+<script type="text/javascript" src="src/vendor/underscore/underscore-min.js"></script>
+<script type="text/javascript" src="src/vendor/angular/angular.js"></script>
+<script type="text/javascript" src="src/vendor/angular-resource/angular-resource.min.js"></script>
+<script type="text/javascript" src="src/vendor/angular-route/angular-route.min.js"></script>
+<!--
+<script type="text/javascript" src="src/vendor/angular-ui-router/release/angular-ui-router.js"></script>
+-->
+<script src="src/vendor/ngstorage/ngStorage.min.js"></script>
+
+<!-- build:js assets/js/main.js -->
+<script type="text/javascript" src="src/js/app.js"></script>
+<script type="text/javascript" src="src/js/routes.js"></script>
+<script src="src/js/modules/_common/services/services.js"></script>
+<script src="src/js/modules/_common/directives/alignment.js"></script>
+<script src="src/js/modules/root/controller.js"></script>
+<script src="src/js/modules/login/controller.js"></script>
+<script src="src/js/modules/logout/controller.js"></script>
+<script src="src/js/modules/dashboard/controller.js"></script>
+<!-- endbuild -->
+</body>
+
+</html>
