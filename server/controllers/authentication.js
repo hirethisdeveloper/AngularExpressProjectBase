@@ -152,3 +152,9 @@ exports.logoutController = function (req, res) {
         res.send(data);
     });
 };
+
+exports.validateSession = function(req, res) {
+
+
+
+};

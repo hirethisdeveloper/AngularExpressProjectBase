@@ -1,7 +1,6 @@
 require('pmx').init();
 
-var db_devices = require("../models/devices.js"),
-    utils      = require("../utils/utils.js"),
+var utils      = require("../utils/utils.js"),
     db_auth    = require("../models/auth.js"),
     inspect    = require('util').inspect;
 // GET - INDEX ROUTE CONTROLLER

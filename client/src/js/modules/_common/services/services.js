@@ -21,6 +21,10 @@ app.factory('globalInterceptor', function ($q, $log, SessionService, AccountServ
                             $location.url("/logout");
                         }
                     }
+                    else if (req.url.match("validateSession")) {
+                        var account = AccountService.get();
+                        if (account) req.headers.account_guid = account.account_guid;
+                    }
                 }
             }
             return req;
@@ -47,7 +51,7 @@ app.factory('globalInterceptor', function ($q, $log, SessionService, AccountServ
  */
 app.factory("AuthService", function ($log, Entity, $localStorage) {
     return {
-        login       : function (obj, callback) {
+        login          : function (obj, callback) {
             if (obj.username && obj.password) {
                 var cfg = {
                     resource: "login"
@@ -59,7 +63,7 @@ app.factory("AuthService", function ($log, Entity, $localStorage) {
                 callback({status: 0, code: 4001})
             }
         },
-        loginGetOrgs: function (obj, callback) {
+        loginGetOrgs   : function (obj, callback) {
             var cfg = {
                 resource      : "login",
                 listController: "org"
@@ -67,7 +71,7 @@ app.factory("AuthService", function ($log, Entity, $localStorage) {
             var res = Entity.get(cfg, callback);
             return res.promise;
         },
-        loginSetOrg : function (obj, callback) {
+        loginSetOrg    : function (obj, callback) {
             if (obj.guid) {
                 var cfg      = {
                     resource      : "login",
@@ -79,11 +83,18 @@ app.factory("AuthService", function ($log, Entity, $localStorage) {
                 return res.promise;
             }
         },
-        logout      : function (callback) {
+        logout         : function (callback) {
             var cfg = {
                 resource: "logout"
             };
             var res = Entity.update(cfg, {}, callback);
+            return res.promise;
+        },
+        validateSession: function (callback) {
+            var cfg = {
+                resource: "validateSession"
+            };
+            var res = Entity.get(cfg, callback);
             return res.promise;
         }
     }

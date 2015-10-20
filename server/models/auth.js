@@ -190,7 +190,7 @@ exports.checkValidSessionId              = function (opts, callback) {
     db.query(
         sql,
         function (err, results) {
-            if (!err) {
+            if (!err)                                                                                               {
                 if (results.length < 2) {
                     callback({status: 1});
                 }

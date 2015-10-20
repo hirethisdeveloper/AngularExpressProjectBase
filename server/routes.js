@@ -7,57 +7,6 @@ var app        = module.parent.exports.app,
     bodyParser = require('body-parser'),
     inspect    = require('util').inspect,
     jsonParser = bodyParser.json();
-/*
- var middleware_post_deviceCheck = function (req, res, next) {
- var payload = utils.getQueryParams(req);
- if (payload.deviceId) {
- db_devices.deviceCheck(payload.deviceId, function (data) {
- if (data.status == 1) {
- next();
- }
- else {
- console.log(data);
- res.send(data);
- }
- });
- }
- else res.send({status: 0, error: "Invalid communication configuration"});
- };
- var middleware_get_deviceCheck  = function (req, res, next) {
- var deviceId = req.params.id;
- if (deviceId) {
- db_devices.deviceCheck(deviceId, function (data) {
- if (data.status == 1) {
- next();
- }
- else {
- console.log(data);
- res.send(data);
- }
- });
- }
- else res.send({status: 0, error: "Invalid communication configuration"});
- };
- var middleware_permissionCheck  = function (req, res, next) {
- //console.log(req.headers);
- var sessionId = req.headers.sessionid;
- if (sessionId) {
- db_devices.checkValidSessionId(sessionId, function (data) {
- if (data.status == 1) {
- if (data.results) {
- next();
- }
- else res.send(data);
- }
- else {
- //console.log(data);
- res.send(data);
- }
- });
- }
- else res.send({status: 0, error: "Invalid session"});
- };
- */
 var middleware_session_check     = function (req, res, next) {
     var sessionId = req.headers.sessionid;
     if (sessionId) {
@@ -104,6 +53,7 @@ if (app) {
     // GETS ====================================================
     app.get('/api/', getCtrl.index);
     app.get('/api/login/org', auth.loginGetOrgList);
+    app.get('/api/validateSession', auth.validateSession);
     // POSTS ====================================================
     app.post('/api/login', jsonParser, auth.loginController);
     app.post('/api/login/org', jsonParser, auth.loginPostOrgList);

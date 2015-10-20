@@ -4,12 +4,11 @@ var app = angular.module("projectBlocksApp", [
     'ngStorage',
     'ngResource'
 ]);
-
 app.config(function ($routeProvider, $logProvider, $httpProvider, $locationProvider) {
     $logProvider.debugEnabled(true);
     $httpProvider.interceptors.push('globalInterceptor');
 });
-app.run(function ($log, $rootScope, PageSettingsService, APPINFO) {
+app.run(function ($log, $rootScope, PageSettingsService, APPINFO, SessionService, AuthService, $location) {
     $log.debug('App is running!');
     $rootScope.$on('$routeChangeSuccess', function (event, current, previous) {
         $log.debug("$routeChangeSuccess $on")
@@ -19,6 +18,20 @@ app.run(function ($log, $rootScope, PageSettingsService, APPINFO) {
         }
         PageSettingsService.setTitle(APPINFO.title + " - " + pageSettings.title);
     });
+    $rootScope.$watch(
+        function () {
+            return SessionService.get();
+        },
+        function (curval, prevval) {
+            if (curval && prevval && curval !== prevval) {
+                AuthService.validateSession(function (data) {
+                    if (data.status < 1) {
+                        $location.url("/logout");
+                    }
+                })
+            }
+        }, true
+    )
 });
 app.value("ErrorCodes", [
     {code: 4001, text: "invalid username or password"},
