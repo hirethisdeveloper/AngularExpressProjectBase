@@ -16,13 +16,12 @@ $secondary-button-color: #a4baed;
 .rc-button {
     font-family: Arial, sans-serif;
     font-size: 13px;
-
     display: inline-block;
     min-width: 46px;
     text-align: center;
     font-weight: 700;
     height: 36px;
-    padding: 0 8px;
+    padding: 0 8px !important;
     line-height: 36px;
     -moz-border-radius: 3px;
     -webkit-border-radius: 3px;
