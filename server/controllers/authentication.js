@@ -18,7 +18,8 @@ var check_required_fields = function (data, list) {
         else {
             var val = data[itemName];
             if (val.length < itemLength) {
-                lack.push(item);
+                var obj = { fieldName: itemName, requiredLength: itemLength };
+                lack.push(obj);
             }
         }
     });
@@ -210,19 +211,7 @@ exports.reqApiKey        = function (req, res) {
             res.send(data);
         });
     }
-    else {
-
-        var mfl = [];
-        _.each(missingFieldsList, function(item) {
-            var i = item.split(":"),
-                itemName = i[0],
-                itemLength = i[1],
-                obj = { fieldName: itemName, requiredLength: itemLength};
-            mfl.push(obj);
-        });
-
-        res.send({status: 0, code: 5002, requiredFields: mfl});
-    }
+    else res.send({status: 0, code: 5002, requiredFields: missingFieldsList});
 };
 
 
