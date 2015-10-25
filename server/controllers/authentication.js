@@ -9,8 +9,17 @@ var db_auth = require("../models/auth.js"),
 var check_required_fields = function (data, list) {
     var lack = [];
     _.each(list, function (item) {
-        if (!_.contains(_.keys(data), item)) {
+        var i          = item.split(":"),
+            itemName   = i[0],
+            itemLength = i[1];
+        if (!_.contains(_.keys(data), itemName)) {
             lack.push(item);
+        }
+        else {
+            var val = data[itemName];
+            if (val.length < itemLength) {
+                lack.push(item);
+            }
         }
     });
     return lack;
@@ -187,9 +196,9 @@ exports.registerOrg      = function (req, res) {
 exports.reqApiKey        = function (req, res) {
     var opts              = req.body,
         requiredFields    = [
-            "siteTitle", "siteUrl", "contactEmail",
-            "address1", "city", "state", "postalCode",
-            "firstName", "lastName"
+            "siteTitle:10", "siteUrl:10", "contactEmail:10",
+            "address1:10", "city:5", "state:2", "postalCode:5",
+            "firstName:2", "lastName:2"
         ],
         missingFieldsList = check_required_fields(opts, requiredFields),
         ipaddr            = getRemoteAddress(req);
@@ -201,7 +210,19 @@ exports.reqApiKey        = function (req, res) {
             res.send(data);
         });
     }
-    else res.send({status: 0, requiredFields: missingFieldsList});
+    else {
+
+        var mfl = [];
+        _.each(missingFieldsList, function(item) {
+            var i = item.split(":"),
+                itemName = i[0],
+                itemLength = i[1],
+                obj = { fieldName: itemName, requiredLength: itemLength};
+            mfl.push(obj);
+        });
+
+        res.send({status: 0, code: 5002, requiredFields: mfl});
+    }
 };
 
 
