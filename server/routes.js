@@ -1,12 +1,12 @@
-var pmx        = require('pmx');
-var app        = module.parent.exports.app,
-    auth       = require("./controllers/authentication.js"),
-    db_auth    = require("./models/auth.js"),
-    getCtrl    = require("./controllers/get.js"),
-    utils      = require("./utils/utils.js"),
-    bodyParser = require('body-parser'),
-    inspect    = require('util').inspect,
-    jsonParser = bodyParser.json();
+var pmx                          = require('pmx');
+var app                          = module.parent.exports.app,
+    auth                         = require("./controllers/authentication.js"),
+    db_auth                      = require("./models/auth.js"),
+    getCtrl                      = require("./controllers/get.js"),
+    utils                        = require("./utils/utils.js"),
+    bodyParser                   = require('body-parser'),
+    inspect                      = require('util').inspect,
+    jsonParser                   = bodyParser.json();
 var middleware_session_check     = function (req, res, next) {
     var sessionId = req.headers.sessionid;
     if (sessionId) {
@@ -58,6 +58,9 @@ if (app) {
     app.post('/api/login', jsonParser, auth.loginController);
     app.post('/api/login/org', jsonParser, auth.loginPostOrgList);
     app.post('/api/logout', auth.logoutController);
+    // end point can be called from anywhere, must have integration type passed along
+    app.post('/api/register', jsonParser, auth.registerOrg);
+    app.post('/api/reqApiKey', jsonParser, auth.reqApiKey);
 }
 else {
     console.error("There was an error initializing the application.");

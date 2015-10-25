@@ -16,7 +16,8 @@
     "fs": "0.0.2",
     "mysql": "^2.8.0",
     "node-uuid": "^1.4.3",
-    "pmx": "^0.3.28"
+    "pmx": "^0.3.28",
+    "underscore-node": "^0.1.2"
   },
   "devDependencies": {
     "util": "^0.10.3"

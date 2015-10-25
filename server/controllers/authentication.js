@@ -1,10 +1,25 @@
 var db_auth = require("../models/auth.js"),
     db_org  = require("../models/org.js"),
     utils   = require("../utils/utils.js"),
+    _       = require("underscore-node"),
     inspect = require('util').inspect;
 // ------------------------------------------------------
 // SUPPORTING FUNCTIONS ---------------------------------
 // ------------------------------------------------------
+var check_required_fields = function (data, list) {
+    var lack = [];
+    _.each(list, function (item) {
+        if (!_.contains(_.keys(data), item)) {
+            lack.push(item);
+        }
+    });
+    return lack;
+};
+var getRemoteAddress      = function (req) {
+    var ipaddr = req.connection.remoteAddress;
+    if (req.headers['x-forwarded-for']) ipaddr = req.headers['x-forwarded-for'];
+    return ipaddr;
+};
 // ------------------------------------------------------
 // CONTROLLERS ------------------------------------------
 // ------------------------------------------------------
@@ -152,9 +167,41 @@ exports.logoutController = function (req, res) {
         res.send(data);
     });
 };
-
-exports.validateSession = function(req, res) {
-
-
-
+exports.validateSession  = function (req, res) {
 };
+/**
+ * EXPORTS METHOD: registerOrg
+ * PURPOSE: Accepts a post payload to create an org in the system. Must have an API key to accept.
+ * @param req
+ * @param res
+ */
+exports.registerOrg      = function (req, res) {
+    var opts = req.body;
+};
+/**
+ * EXPORT METHOD: reqApiKey
+ * PURPOSE: Accepts a post payload to insert a request for an api account.
+ * @param req
+ * @param res
+ */
+exports.reqApiKey        = function (req, res) {
+    var opts              = req.body,
+        requiredFields    = [
+            "siteTitle", "siteUrl", "contactEmail",
+            "address1", "city", "state", "postalCode",
+            "firstName", "lastName"
+        ],
+        missingFieldsList = check_required_fields(opts, requiredFields),
+        ipaddr            = getRemoteAddress(req);
+    opts.remoteAddress    = ipaddr;
+    if (missingFieldsList.length < 1) {
+        db_auth.createApiAccountRecord(opts, function (data) {
+            //var admin_email_functions = require("../utils/admin_email_functions");
+            // add sending of the api account email verification here
+            res.send(data);
+        });
+    }
+    else res.send({status: 0, requiredFields: missingFieldsList});
+};
+
+
